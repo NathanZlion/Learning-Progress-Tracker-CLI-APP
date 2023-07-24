@@ -19,6 +19,14 @@ class Course:
             "hours_completed": self.hours_completed,
             "is_active": self.is_active,
         }
+    
+
+    def update(self, **kwargs):
+        self.course_name = kwargs.get("course_name", self.course_name)
+        self.course_number = kwargs.get("course_number", self.course_number)
+        self.credit_hours = kwargs.get("credit_hours", self.credit_hours)
+        self.hours_completed = kwargs.get("hours_completed", self.hours_completed)
+        self.is_active = kwargs.get("is_active", self.is_active)
 
     @staticmethod
     def fromJson(json):
