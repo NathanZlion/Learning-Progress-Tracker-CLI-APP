@@ -19,11 +19,11 @@ class LPT:
         print("**************************************")
         while True:
             input: str = get_input()
-            if input == "exit\n":
+            if input == "exit":
                 print("Exiting LPT ...")
                 time.sleep(0.2)
                 sys.exit(0)
-            elif input == "clear\n":
+            elif input == "clear":
                 os.system("cls" if os.name == "nt" else "clear")
                 print("Welcome to the LPT CLI!")
             else:
