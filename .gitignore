@@ -52,3 +52,9 @@ coverage.xml
 # Translations
 *.mo
 *.pot
+
+# Some Notes I scribbled
+*.txt
+
+# the json file that contains the courses
+*.json
