@@ -8,3 +8,12 @@ def get_input():
     print("> ", end="")
     input = sys.stdin.readline()
     return input
+
+
+class any:
+    """
+    A class that represents any type.
+    """
+
+    def __eq__(self, _):
+        return True
