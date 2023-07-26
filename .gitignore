@@ -57,5 +57,5 @@ coverage.xml
 # Some Notes I scribbled
 *.txt
 
-# the json file that contains the courses
-*.json
+# the database .db 
+*.db
