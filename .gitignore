@@ -2,6 +2,7 @@
 /__pycache__/
 
 # git ignore related to a python project, vscode and staff
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
