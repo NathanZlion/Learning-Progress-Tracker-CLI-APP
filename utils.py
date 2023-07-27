@@ -5,7 +5,7 @@ def get_input():
     """
     Get input from the user.
     """
-    user_input = input("> \b")
+    user_input = input(">  \b")
     return user_input.strip()
 
 
