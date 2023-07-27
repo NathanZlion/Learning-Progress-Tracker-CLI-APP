@@ -11,26 +11,28 @@ class LPT:
         self.tasksDb = TaskDb()
 
     def main(self):
-        """Main function responsible for handling command line input processing 
-         and execution. """
+        """Main function responsible for handling command line input processing
+        and execution."""
         print_cli_welcome_message()
         while True:
             input: str = get_input()
             if input == "exit":
-                print("Exiting LPT CLI ...")
                 self.tasksDb.close()
-                time.sleep(0.2)
+                clear_screen()
+                print_exit_message()
                 sys.exit(0)
             elif input == "clear":
-                os.system("cls" if os.name == "nt" else "clear")
+                clear_screen()
                 print_cli_header()
             else:
-                self.process_input(input)
+                self.process_and_execute_input(input)
 
-    def process_input(self, input: str):
+    def process_and_execute_input(self, input: str):
         splitted_input = input.split()
-        if len(splitted_input) == 0:
+
+        if not splitted_input:
             return
+
         command = splitted_input[0]
         if command == "help":
             self.help(splitted_input[1] if len(splitted_input) > 1 else None)
@@ -49,10 +51,10 @@ class LPT:
 
         elif command == "delete":
             self.delete(splitted_input[1:])
-        
+
         elif command == "restore":
             self.restore(splitted_input[1:])
-        
+
         elif command == "spent":
             self.spent(splitted_input[1:])
 
@@ -60,7 +62,7 @@ class LPT:
             print(f'Command not found. Type "help" for a list of commands.')
 
     def help(self, topic: str | None = None):
-        text = get_help_text(topic or "main")        
+        text = get_help_text(topic or "main")
         print(text)
 
     def add(self, *args):
@@ -90,18 +92,18 @@ class LPT:
         try:
             # show the active tasks only by default
             active = True
-            if "-all" in args[0]:
+            if "-all" in args[0] or "-a" in args[0]:
                 active = any()
-            elif "-i" in args[0]:
+            elif "-i" in args[0] or "-inactive" in args[0]:
                 active = False
 
             completed = any()
-            if "-c" in args[0]:
+            if "-c" in args[0] or "-completed" in args[0]:
                 completed = True
-            elif "-nc" in args[0]:
+            elif "-nc" in args[0] or "-not-completed" in args[0]:
                 completed = False
 
-            short = True if "-s" in args[0] else False
+            short = True if "-s" in args[0] or "--short" in args[0] else False
             self.tasksDb.display_list(active=active, completed=completed, short=short)
 
         except Exception as e:
@@ -130,7 +132,9 @@ class LPT:
 
         task_name = args[0][0]
         try:
-            self.tasksDb.delete_task(task_name, hard="-hard" in args[0])
+            self.tasksDb.delete_task(
+                task_name, hard=("--hard" in args[0] or "-h" in args[0])
+            )
         except Exception as e:
             print(e)
 
@@ -145,7 +149,7 @@ class LPT:
             self.tasksDb.restore(task_name)
         except Exception as e:
             print(e)
-    
+
     # a command to add some hours spent on a task
     def spent(self, *args):
         if not args or len(args[0]) < 2:
@@ -157,6 +161,7 @@ class LPT:
             self.tasksDb.spent_time(task_name, int(hours))
         except Exception as e:
             print(e)
+
 
 if __name__ == "__main__":
     LPT().main()
