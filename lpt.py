@@ -3,12 +3,12 @@ import os
 import time
 from Task import Task
 from utils import *
-from TaskList import TaskList
+from TaskListDBHelper import TaskDb
 
 
 class LPT:
     def __init__(self):
-        self.tasks = TaskList()
+        self.tasksDb = TaskDb()
 
     def main(self):
         """
@@ -20,12 +20,13 @@ class LPT:
         while True:
             input: str = get_input()
             if input == "exit":
-                print("Exiting LPT ...")
+                print("Exiting LPT CLI ...")
+                self.tasksDb.close()
                 time.sleep(0.2)
                 sys.exit(0)
             elif input == "clear":
                 os.system("cls" if os.name == "nt" else "clear")
-                print("Welcome to the LPT CLI!")
+                print("LPT CLI!  --_")
             else:
                 self.process_input(input)
 
@@ -73,7 +74,7 @@ class LPT:
             return
 
         task_name, task_hours = args[0][0], args[0][1]
-        self.tasks.create_task(Task(task_name, int(task_hours)))
+        self.tasksDb.create_task(Task(task_name, int(task_hours)))
 
     def show(self, *args):
         if not args or len(args[0]) < 1:
@@ -82,7 +83,7 @@ class LPT:
 
         task_name = args[0][0]
         try:
-            task = self.tasks.get_task(task_name)
+            task = self.tasksDb.get_task_by_name(task_name)
             task.display(short=True if "-s" in args[0] else False)
         except Exception as e:
             print(e)
@@ -103,7 +104,7 @@ class LPT:
                 completed = False
 
             short = True if "-s" in args[0] else False
-            self.tasks.display_list(active=active, completed=completed, short=short)
+            self.tasksDb.display_list(active=active, completed=completed, short=short)
 
         except Exception as e:
             print(e)
@@ -120,7 +121,7 @@ class LPT:
             attributes[args[0][i]] = args[0][i + 1]
 
         try:
-            self.tasks.update_task(task_name, **attributes)
+            self.tasksDb.update_task(task_name, **attributes)
         except Exception as e:
             print(e)
 
@@ -131,7 +132,7 @@ class LPT:
 
         task_name = args[0][0]
         try:
-            self.tasks.delete_task(task_name, hard="-hard" in args[0])
+            self.tasksDb.delete_task(task_name, hard="-hard" in args[0])
         except Exception as e:
             print(e)
 
@@ -143,7 +144,7 @@ class LPT:
         task_name = args[0][0]
 
         try:
-            self.tasks.restore(task_name)
+            self.tasksDb.restore(task_name)
         except Exception as e:
             print(e)
     
@@ -155,7 +156,7 @@ class LPT:
 
         task_name, hours = args[0][0], args[0][1]
         try:
-            self.tasks.spent_time(task_name, int(hours))
+            self.tasksDb.spent_time(task_name, int(hours))
         except Exception as e:
             print(e)
 
