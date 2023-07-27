@@ -150,7 +150,25 @@ class TaskDb:
         try:
             task = self.get_task_by_name(task_name)
             task.spent_time += hours
-            self.update_task(task_name, spent_time=task.spent_time)
+            self.cursor.execute(
+                f"""
+                UPDATE {self.table_name} SET
+                task_name = :task_name,
+                task_spent_time = :task_spent_time,
+                task_total_time = :task_total_time,
+                task_is_active = :task_is_active
+                WHERE task_name = :task_name_
+                """,
+                {
+                    "task_name": task.task_name,
+                    "task_spent_time": task.spent_time,
+                    "task_total_time": task.total_time,
+                    "task_is_active": 1 if task.is_active else 0,
+                    "task_name_": task_name,
+                },
+            )
+
+            self.sqlite.commit()
 
         except Exception as e:
             raise e
@@ -184,7 +202,7 @@ class TaskDb:
                 task_name = :task_name,
                 task_spent_time = :task_spent_time,
                 task_total_time = :task_total_time,
-                task_is_active = :task_is_active,
+                task_is_active = :task_is_active
                 WHERE task_name = :task_name_
                 """,
                 {
