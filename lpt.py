@@ -11,12 +11,9 @@ class LPT:
         self.tasksDb = TaskDb()
 
     def main(self):
-        """
-        Main function, called when script is run.
-        """
-        print("**************************************")
-        print("     Welcome to the LPT CLI! __ where you track your tasks")
-        print("**************************************")
+        """Main function responsible for handling command line input processing 
+         and execution. """
+        print_cli_welcome_message()
         while True:
             input: str = get_input()
             if input == "exit":
@@ -26,7 +23,7 @@ class LPT:
                 sys.exit(0)
             elif input == "clear":
                 os.system("cls" if os.name == "nt" else "clear")
-                print("LPT CLI!  --_")
+                print_cli_header()
             else:
                 self.process_input(input)
 
@@ -63,10 +60,8 @@ class LPT:
             print(f'Command not found. Type "help" for a list of commands.')
 
     def help(self, topic: str | None = None):
-        if not topic:
-            print("This is the help telling...")
-        else:
-            print("This is the help telling you about {}".format(topic))
+        text = get_help_text(topic or "main")        
+        print(text)
 
     def add(self, *args):
         if not args or len(args[0]) < 2:

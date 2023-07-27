@@ -1,6 +1,7 @@
+from HelpText import *
+
+
 # Utility methods
-
-
 def get_input():
     """
     Get input from the user.
@@ -42,3 +43,25 @@ def select_query_string(
     
     else:
         return f"SELECT * FROM {table_name} WHERE task_is_active = {1 if active_status else 0} AND task_is_completed = {1 if completed_status else 0}"
+
+
+def print_cli_welcome_message():
+        """
+        prints >> Welcome to the LPT CLI! __ where you track your tasks
+        """
+        print("*"*15)
+        print("     Welcome to the LPT CLI! __ where you track your tasks")
+        print("*"*15)
+    
+def print_cli_header():
+        """
+        prints >> LPT CLI __
+        """
+        print("*"*10)
+        print("     LPT CLI __")
+        print("*"*10)
+
+def get_help_text(topic):
+     return help_text.get(topic, 
+        f'Help topic "{topic}" not found. Type "help" for a list of commands.')
+
