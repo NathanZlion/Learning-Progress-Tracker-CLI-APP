@@ -74,7 +74,10 @@ class LPT:
             return
 
         task_name, task_hours = args[0][0], args[0][1]
-        self.tasksDb.create_task(Task(task_name, int(task_hours)))
+        try:
+            self.tasksDb.create_task(Task(task_name, int(task_hours)))
+        except Exception as e:
+            print(e)
 
     def show(self, *args):
         if not args or len(args[0]) < 1:
