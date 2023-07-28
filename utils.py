@@ -37,10 +37,12 @@ def select_query_string(
     if is_any(active_status) and is_any(completed_status):
         return f"SELECT * FROM {table_name}"
 
-    elif not is_any(active_status) and is_any(completed_status):
-        return f"SELECT * FROM {table_name} WHERE is_active = {1 if active_status else 0}"
+    elif (not is_any(active_status)) and (is_any(completed_status)):
+        return (
+            f"SELECT * FROM {table_name} WHERE is_active = {1 if active_status else 0}"
+        )
 
-    elif is_any(active_status) and not is_any(completed_status):
+    elif is_any(active_status) and (not is_any(completed_status)):
         # Query for selecting tasks with spent_time not 0 and greater than or equal to total_time if completed_status is True else less than total_time
         if completed_status:
             return f"SELECT * FROM {table_name} WHERE spent_time > 0 AND spent_time >= total_time"
@@ -50,10 +52,10 @@ def select_query_string(
     else:
         # Query for selecting tasks based on both active and completed status
         if completed_status:
-            return f"SELECT * FROM {table_name} WHERE is_active = {1 if active_status else 0} AND spent_time > 0 AND spent_time < total_time"
-        else:
             return f"SELECT * FROM {table_name} WHERE is_active = {1 if active_status else 0} AND spent_time > 0 AND spent_time >= total_time"
-
+        else:
+            return f"SELECT * FROM {table_name} WHERE is_active = {1 if active_status else 0} AND spent_time > 0 AND spent_time < total_time"
+                                         
 
 def print_cli_welcome_message():
     print("╭──────────────────────────────────────────╮")
@@ -98,6 +100,7 @@ def print_exit_message():
 
 def print_separator():
     print("────────────────────────────────────────────")
+
 
 def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")

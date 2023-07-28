@@ -56,12 +56,11 @@ class TaskDb:
         Returns:
             list[Task]: The list of tasks.
         """
-
-        active_status = kwarg.get("active", any())
-        completed_status = kwarg.get("completed", any())
+        active = kwarg.get("active", any())
+        completed = kwarg.get("completed", any())
 
         query_string = select_query_string(
-            self.table_name, active_status=active_status, completed_status=completed_status
+            self.table_name, active_status=active, completed_status=completed
         )
 
         self.cursor.execute(query_string)
