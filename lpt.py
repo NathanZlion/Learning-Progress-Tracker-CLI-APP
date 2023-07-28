@@ -139,7 +139,7 @@ class LPT:
         task_name = args[0][0]
         try:
             self.tasksDb.delete_task(
-                task_name, hard=("--hard" in args[0] or "-h" in args[0])
+                task_name, hard=("-hard" in args[0] or "-h" in args[0])
             )
         except Exception as e:
             print(e)
