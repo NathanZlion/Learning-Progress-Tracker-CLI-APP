@@ -96,6 +96,7 @@ def print_exit_message():
             time.sleep(1 / fps)
 
     print("\r 👋 BYE BYE! Stay Productive.\n")
+    clear_screen()
 
 
 def print_separator():
