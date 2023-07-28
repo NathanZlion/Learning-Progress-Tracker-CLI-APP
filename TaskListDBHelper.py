@@ -20,19 +20,19 @@ class TaskDb:
             self.cursor.execute(
                 f"""
                 INSERT INTO {self.table_name} VALUES (
-                    :task_name,
-                    :task_spent_time,
-                    :task_total_time,
-                    :task_is_active,
-                    :task_created_at
+                    :name,
+                    :spent_time,
+                    :total_time,
+                    :is_active,
+                    :created_at
                 )
                 """,
                 {
-                    "task_name": task.task_name,
-                    "task_spent_time": task.spent_time,
-                    "task_total_time": task.total_time,
-                    "task_is_active": 1 if task.is_active else 0,
-                    "task_created_at": task.created_at,
+                    "name": task.name,
+                    "spent_time": task.spent_time,
+                    "total_time": task.total_time,
+                    "is_active": 1 if task.is_active else 0,
+                    "created_at": task.created_at,
                 },
             )
             self.sqlite.commit()
@@ -69,8 +69,12 @@ class TaskDb:
 
         if not tasks:
             raise Exception("Error!: No tasks found.")
+        try:
+            return [Task.fromTuple(task) for task in tasks]
         
-        return [Task.fromTuple(task) for task in tasks]
+        except Exception as e:
+            print("dick")
+            raise e
 
 
     def display_list(self, **kwarg) -> None:
@@ -100,7 +104,7 @@ class TaskDb:
             self.cursor.execute(
                 # select one task from the database
                 f"""
-                SELECT * FROM {self.table_name} WHERE task_name = :task_name
+                SELECT * FROM {self.table_name} WHERE name = :task_name
                 """,
                 {"task_name": task_name},
             )
@@ -108,6 +112,7 @@ class TaskDb:
             if task is None:
                 raise Exception("Error!: No task by that name.")
 
+            print(task)
             return Task.fromTuple(task)
 
         except sqlite3.IntegrityError:
@@ -126,7 +131,7 @@ class TaskDb:
             if kwarg.get("hard", False):
                 self.cursor.execute(
                     f"""
-                    DELETE FROM {self.table_name} WHERE task_name = :task_name
+                    DELETE FROM {self.table_name} WHERE name = :task_name
                     """,
                     {"task_name": task_name},
                 )
@@ -138,6 +143,7 @@ class TaskDb:
 
         # exception where the task is not found in the list
         except Exception as e:
+            error_message = f"Error!: No task by the name {task_name} found. ,{e.__class__.__name__}"
             raise e
 
     def spent_time(self, task_name: str, hours: int):
@@ -153,14 +159,14 @@ class TaskDb:
             self.cursor.execute(
                 f"""
                 UPDATE {self.table_name} SET
-                task_name = :task_name,
-                task_spent_time = :task_spent_time,
-                task_total_time = :task_total_time,
-                task_is_active = :task_is_active
-                WHERE task_name = :task_name_
+                name = :task_name,
+                spent_time = :task_spent_time,
+                total_time = :task_total_time,
+                is_active = :task_is_active
+                WHERE name = :task_name_
                 """,
                 {
-                    "task_name": task.task_name,
+                    "task_name": task.name,
                     "task_spent_time": task.spent_time,
                     "task_total_time": task.total_time,
                     "task_is_active": 1 if task.is_active else 0,
@@ -196,21 +202,25 @@ class TaskDb:
             Exception: If the task is not found in the list.
         """
         try:
+            existing_task = self.get_task_by_name(task_name_)
+            if not existing_task:
+                raise Exception("Error!: No task by that name.")
+
             self.cursor.execute(
                 f"""
                 UPDATE {self.table_name} SET
-                task_name = :task_name,
-                task_spent_time = :task_spent_time,
-                task_total_time = :task_total_time,
-                task_is_active = :task_is_active
-                WHERE task_name = :task_name_
+                name = :task_name,
+                spent_time = :task_spent_time,
+                total_time = :task_total_time,
+                is_active = :task_is_active
+                WHERE name = :task_name_
                 """,
                 {
-                    "task_name": kwarg.get("task_name", task_name_),
-                    "task_spent_time": kwarg.get("spent_time", 0),
-                    "task_total_time": kwarg.get("total_time", 0),
-                    "task_is_active": kwarg.get("is_active", 1),
-                    "task_name_": task_name_,
+                    "task_name": kwarg.get("task_name", existing_task.name),
+                    "task_spent_time": kwarg.get("spent_time", existing_task.spent_time),
+                    "task_total_time": kwarg.get("total_time", existing_task.total_time),
+                    "task_is_active": kwarg.get("is_active", existing_task.is_active),
+                    "task_name_": existing_task.name,
                 },
             )
             self.sqlite.commit()
@@ -223,11 +233,11 @@ class TaskDb:
         self.cursor.execute(
             f"""
             CREATE TABLE IF NOT EXISTS {self.table_name} (
-                task_name TEXT PRIMARY KEY,
-                task_spent_time INTEGER,
-                task_total_time INTEGER,
-                task_is_active INTEGER,
-                task_created_at
+                name TEXT PRIMARY KEY,
+                spent_time INTEGER,
+                total_time INTEGER,
+                is_active INTEGER,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
             """
         )

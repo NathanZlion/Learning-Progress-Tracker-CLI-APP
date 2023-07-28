@@ -94,7 +94,7 @@ class LPT:
             active = True
             if "-all" in args[0] or "-a" in args[0]:
                 active = any()
-            elif "-i" in args[0] or "-inactive" in args[0]:
+            elif "-ia" in args[0] or "-inactive" in args[0]:
                 active = False
 
             completed = any()
@@ -103,10 +103,11 @@ class LPT:
             elif "-nc" in args[0] or "-not-completed" in args[0]:
                 completed = False
 
-            short = True if "-s" in args[0] or "--short" in args[0] else False
+            short = True if "-s" in args[0] or "-short" in args[0] else False
             self.tasksDb.display_list(active=active, completed=completed, short=short)
 
         except Exception as e:
+            print("penis")
             print(e)
 
     def edit(self, *args):
