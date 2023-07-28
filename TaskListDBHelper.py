@@ -68,12 +68,11 @@ class TaskDb:
         tasks = self.cursor.fetchall()
 
         if not tasks:
-            raise Exception("Error!: No tasks found.")
+            raise Exception("⣿ No tasks found.\n")
         try:
             return [Task.fromTuple(task) for task in tasks]
         
         except Exception as e:
-            print("dick")
             raise e
 
 
@@ -82,15 +81,20 @@ class TaskDb:
         try:
             tasks = self.get_tasks(**kwarg)
             if not tasks:
-                raise Exception("Error!: No tasks found.")
+                raise Exception("⣿ No tasks found.\n")
+
+            short = kwarg.get("short", False)
+            print (f"⣿ Tasks: {len(tasks)} tasks found.")
+            for index, task in enumerate(tasks):
+                print_separator()
+                print(f'{index+1}',end=". ")
+                print(task.get_display_string(short=short), end="\n")
+            print("\n")
 
         except Exception as e:
             # just pass it up the stack. It will be handled by the caller.
             raise e
 
-        short = kwarg.get("short", False)
-        for task in tasks:
-            task.display(short=short)
 
     def get_task_by_name(self, task_name: str) -> Task:
         """
@@ -110,9 +114,8 @@ class TaskDb:
             )
             task = self.cursor.fetchone()
             if task is None:
-                raise Exception("Error!: No task by that name.")
+                raise Exception("⣿ No task by that name found.\n")
 
-            print(task)
             return Task.fromTuple(task)
 
         except sqlite3.IntegrityError:
@@ -204,7 +207,7 @@ class TaskDb:
         try:
             existing_task = self.get_task_by_name(task_name_)
             if not existing_task:
-                raise Exception("Error!: No task by that name.")
+                raise Exception("⣿ No such tasks found.")
 
             self.cursor.execute(
                 f"""
