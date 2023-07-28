@@ -1,6 +1,7 @@
 import os
 from HelpText import *
 import time
+import sys
 
 
 # Utility methods
@@ -8,7 +9,7 @@ def get_input():
     """
     Get input from the user.
     """
-    user_input = input(">  \b")
+    user_input = input("(lpt) $  \b")
     return user_input.strip()
 
 
@@ -55,15 +56,20 @@ def select_query_string(
 
 
 def print_cli_welcome_message():
-    print("*" * 15)
-    print("     Welcome to the LPT CLI! __ where you track your tasks")
-    print("*" * 15)
+    print("╭──────────────────────────────────────────╮")
+    print("│         Welcome to the LPT CLI!          │")
+    print("│    -  Let's Supercharge Your Day  -      │")
+    print("│             🚀🌟📅✅⏳💡🎯               │")
+    print("╰──────────────────────────────────────────╯")
+    print("\n")
 
 
 def print_cli_header():
-    print("*" * 10)
-    print("     LPT CLI __")
-    print("*" * 10)
+    print("╭──────────────────────────────────────────╮")
+    print("|         ⭐️ LPT CLI ⭐️                    |")
+    print("|   🚀 Let's Power Up Your Day! 🚀         |")
+    print("╰──────────────────────────────────────────╯")
+    print("\n")
 
 
 def get_help_text(topic):
@@ -73,19 +79,25 @@ def get_help_text(topic):
 
 
 def print_exit_message():
-    """prints a cool animation while exiting LPT CLI"""
-    animation_chars = ["|", "/", "-", "\\"]
+    """Prints a cool animation while exiting LPT CLI."""
+    animation_chars = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"]
     num_chars = len(animation_chars)
+    animation_iteration = 2
+    fps = 10
 
-    for _ in range(
-        2
-    ):  # Adjust the number of iterations for a longer or shorter animation
+    # Adjust the number of iterations for a longer or shorter animation
+    for _ in range(animation_iteration):
         for i in range(num_chars):
-            print(f"\rExiting LPT CLI... {animation_chars[i]}", end="")
-            time.sleep(0.1)  # Adjust the sleep duration to control the animation speed
+            sys.stdout.write(f"\rExiting LPT CLI... {animation_chars[i]}  ")
+            sys.stdout.flush()
+            # Adjust the sleep duration to control the animation speed
+            time.sleep(1 / fps)
 
-    print("   BYE BYE! Stay Productive.\n")  # Add a newline after the animation is done
+    print("\r 👋 BYE BYE! Stay Productive.\n")
 
+
+def print_separator():
+    print("────────────────────────────────────────────")
 
 def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
