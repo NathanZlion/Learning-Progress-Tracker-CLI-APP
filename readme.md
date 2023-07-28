@@ -14,7 +14,7 @@ This is a command line app that tracks your course progress. It is designed to t
 ```bash
 > lpt
 ```
-![CLI Snapshot](/images/cli_snapshot.png)
+![CLI Snapshot](./images/lpt.png)
 
 > This will start the LPT CLI and you will be prompted to enter commands.
 
@@ -29,8 +29,15 @@ This is a command line app that tracks your course progress. It is designed to t
 
 ### Update Task
 ```bash
-> update <task_name> [-h <hours>] [-r <hours>]
+> update <task_name> [Options]
 ```
+Options:
+> a attribute value pair. The attribute must be one of the following:
+> - `name`: The new name of the task
+> - `total_time`: The new total hours of the task
+> - `spent_time`: The number of hours spent on the task. Note that you can also use the `spent` command to add hours spent on a task.
+>- `is_active`: The task is active
+
 
 ### List Tasks
 ```bash
@@ -58,7 +65,7 @@ This is a command line app that tracks your course progress. It is designed to t
 > **Default**: Show task details
 > 
 > **Options**:
-> - `-s` or `--short`: Show a short summary of the task
+> - `-s` or `-short`: Show a short summary of the task
 
 
 ### Delete Task
@@ -68,15 +75,32 @@ This is a command line app that tracks your course progress. It is designed to t
 > **Default**: soft delete task. The task will be marked as inactive. (This is like archiving the task)
 > 
 > **Options**:
-> - `-h` or `--hard`: hard delete task. The task will be permanently deleted. (This is like deleting the task)
+> - `-h` or `-hard`: hard delete task. The task will be permanently deleted.
 
-### restore Task
+### Restore Task
 ```bash
 > restore <task_name>
 ```
-> This will restore a task that has been deleted (soft deleted).
+> This will restore a task that has been deleted (soft deleted), making it active again.
+
+### Clearing console
+```bash
+> clear
+```
+> This will clear the console.
+
+### Help
+```bash
+> help
+```
+
+### exit
+```bash
+> exit
+```
+> This will exit the LPT CLI.
 
 
-![Go Back Up](https://img.icons8.com/ios-filled/50/circled-up-2.png)
+
 <a href="#readme-top"><img width="50" height="50" src="https://img.icons8.com/ios-filled/50/circled-up-2.png" alt="circled-up-2" style="background-color: #ffffff; border-radius: 50%; display: inline-block; float: right; height: 50px; overflow: hidden; position: relative;" />
 </a>
