@@ -218,7 +218,7 @@ class TaskDb:
                 WHERE name = :task_name_
                 """,
                 {
-                    "task_name": kwarg.get("task_name", existing_task.name),
+                    "task_name": kwarg.get("name", existing_task.name),
                     "task_spent_time": kwarg.get("spent_time", existing_task.spent_time),
                     "task_total_time": kwarg.get("total_time", existing_task.total_time),
                     "task_is_active": kwarg.get("is_active", existing_task.is_active),
