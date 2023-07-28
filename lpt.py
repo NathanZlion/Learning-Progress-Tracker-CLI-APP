@@ -107,7 +107,6 @@ class LPT:
             self.tasksDb.display_list(active=active, completed=completed, short=short)
 
         except Exception as e:
-            print("penis")
             print(e)
 
     def edit(self, *args):
