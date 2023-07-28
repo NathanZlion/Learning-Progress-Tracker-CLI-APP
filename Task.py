@@ -58,33 +58,31 @@ class Task:
         """Return a hash of the course name and number"""
         return hash(self.name)
 
-    def display(self, **kwargs):
+
+    def __get_short_display_string(self):
+        return f"{self.name} - {self.spent_time}hrs of {self.total_time}hrs"
+
+
+    def __get_verbose_display_string(self):
+        first_line = f"{self.name} - {self.spent_time}hrs of {self.total_time}hrs - {self.created_at}\n"
+        progress = self.spent_time / self.total_time if self.total_time > 0 else 0
+        progress_percentage = progress * 100
+        progress_bar_length = 25
+        # calculate the number of # to print
+        number_of_hashes = max(int(progress * progress_bar_length), 1)
+
+        progress_bar = f"[{'█' * number_of_hashes}{'_' * (progress_bar_length - number_of_hashes)}]"
+        second_line = f"Progress: {progress_bar} {progress_percentage:.2f}% \n"
+        return first_line + second_line
+
+
+    def get_display_string(self, **kwargs):
         short = kwargs.get("short", False)
-        try:
-            progress = self.spent_time / self.total_time
-            if short:
-                print(
-                    f":: {self.name} :: {self.total_time}hrs :: ({progress * 100:.2f}% complete)"
-                )
-            else:
-                status = "Active" if self.is_active else "Inactive"
-                separator_length = max(
-                    len(self.name),
-                    len(str(self.total_time)),
-                    len("Status: Inactive" if not self.is_active else "Status: Active"),
-                )
+        if short:
+            return self.__get_short_display_string()
+        else:
+            return self.__get_verbose_display_string()
 
-                print(
-                f"""
-  :: {self.name} :: {self.total_time}hrs :: Status: {status}
-  :: {'-' * separator_length} :: {'-' * (len(str(self.total_time)) + 3)} :: {'-' * (len(status) + len("Status: "))}
-  :: {self.spent_time}hrs/{self.total_time}hrs ({progress * 100:.2f}% complete)
-  :: Date Created: {self.created_at}
-  """
-            )
-        except ZeroDivisionError:
-            progress = 0
-            print("Hige Dick")
 
-        except Exception as e:
-            print("Dick head")
+    def display(self, **kwargs):
+        print(">", self.get_display_string(**kwargs))
