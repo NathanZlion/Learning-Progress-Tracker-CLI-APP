@@ -45,16 +45,16 @@ def select_query_string(
     elif is_any(active_status) and (not is_any(completed_status)):
         # Query for selecting tasks with spent_time not 0 and greater than or equal to total_time if completed_status is True else less than total_time
         if completed_status:
-            return f"SELECT * FROM {table_name} WHERE spent_time > 0 AND spent_time >= total_time"
+            return f"SELECT * FROM {table_name} WHERE spent_time >= total_time"
         else:
-            return f"SELECT * FROM {table_name} WHERE spent_time > 0 AND spent_time < total_time"
+            return f"SELECT * FROM {table_name} WHERE spent_time < total_time"
 
     else:
         # Query for selecting tasks based on both active and completed status
         if completed_status:
-            return f"SELECT * FROM {table_name} WHERE is_active = {1 if active_status else 0} AND spent_time > 0 AND spent_time >= total_time"
+            return f"SELECT * FROM {table_name} WHERE is_active = {1 if active_status else 0} AND spent_time >= total_time"
         else:
-            return f"SELECT * FROM {table_name} WHERE is_active = {1 if active_status else 0} AND spent_time > 0 AND spent_time < total_time"
+            return f"SELECT * FROM {table_name} WHERE is_active = {1 if active_status else 0} AND spent_time < total_time"
                                          
 
 def print_cli_welcome_message():
@@ -86,7 +86,8 @@ def print_exit_message():
     num_chars = len(animation_chars)
     animation_iteration = 2
     fps = 10
-
+    print("(lpt) $ exit \b")
+    print("\r 👋 BYE BYE! Stay Productive.\n")
     # Adjust the number of iterations for a longer or shorter animation
     for _ in range(animation_iteration):
         for i in range(num_chars):
@@ -95,7 +96,6 @@ def print_exit_message():
             # Adjust the sleep duration to control the animation speed
             time.sleep(1 / fps)
 
-    print("\r 👋 BYE BYE! Stay Productive.\n")
     clear_screen()
 
 
