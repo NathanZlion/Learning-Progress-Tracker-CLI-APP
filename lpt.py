@@ -90,20 +90,26 @@ class LPT:
 
     def list(self, *args):
         try:
-            # show the active tasks only by default
+            # default values
             active = True
+            completed = False
+
             if "-all" in args[0] or "-a" in args[0]:
-                active = any()
-            elif "-ia" in args[0] or "-inactive" in args[0]:
+                active, completed = any(), any()
+            
+            if "-active" in args[0]:
+                active = True
+            
+            elif "-inactive" in args[0]:
                 active = False
 
-            completed = any()
-            if "-c" in args[0] or "-completed" in args[0]:
+            if "-completed" in args[0]:
                 completed = True
-            elif "-nc" in args[0] or "-not-completed" in args[0]:
+
+            elif "-notcompleted" in args[0]:
                 completed = False
 
-            short = True if "-s" in args[0] or "-short" in args[0] else False
+            short = "-s" in args[0] or "-short" in args[0]
             self.tasksDb.display_list(active=active, completed=completed, short=short)
 
         except Exception as e:

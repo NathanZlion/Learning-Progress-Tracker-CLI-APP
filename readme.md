@@ -36,13 +36,14 @@ This is a command line app that tracks your course progress. It is designed to t
 ```bash
 > list [Options]
 ```
->**Default**: List currently active tasks
+>**Default**: {active} {notcomplete} tasks
 
 >**Options**:
->- `-a` or `--all`: List all tasks
->- `-i` or `inactive`: List inactive tasks
->- `-c` or `--completed`: List completed tasks
->- `-nc` or `--notcomplete`: List incomplete tasks
+>- `-all`: List all tasks
+>- `-active`: List active tasks
+>- `-inactive`: List inactive tasks
+>- `-completed`: List completed tasks
+>- `-notcomplete`: List incomplete tasks
 
 ### Spend Time on Task
 ```bash
