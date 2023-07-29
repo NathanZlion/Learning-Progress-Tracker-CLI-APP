@@ -7,8 +7,13 @@ This is a command line app that tracks your course progress. It is designed to t
 
 <!-- Getting Started -->
 ## Getting Started
-### Install LPT CLI
-> Download the executable file and add it to your path.
+### Download LPT CLI executable
+<!-- download button -->
+> Download the executable file and add it to your path if you want to run the CLI from anywhere in your system.
+
+<a href="https://github.com/NathanZlion/Learning-Progress-Tracker-CLI-APP/raw/master/dist/lpt.exe" download>
+    <img src="./images/download_icon.png" alt="download" style="background-color: #ffffff; border-radius: 50%; display: inline-block; height: 50px; overflow: hidden; position: relative; margin-right:20px;" />    
+</a>
 
 ### Start LPT CLI
 ```bash
