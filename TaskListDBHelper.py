@@ -67,7 +67,7 @@ class TaskDb:
         tasks = self.cursor.fetchall()
 
         if not tasks:
-            raise Exception("⣿ No tasks found.\n")
+            raise Exception(">>> No tasks found.\n")
         try:
             return [Task.fromTuple(task) for task in tasks]
         
@@ -80,10 +80,10 @@ class TaskDb:
         try:
             tasks = self.get_tasks(**kwarg)
             if not tasks:
-                raise Exception("⣿ No tasks found.\n")
+                raise Exception(">>> No tasks found.\n")
 
             short = kwarg.get("short", False)
-            print (f"⣿ Tasks: {len(tasks)} tasks found.")
+            print (f">>> Tasks: {len(tasks)} tasks found.")
             for index, task in enumerate(tasks):
                 print_separator()
                 print(f'{index+1}',end=". ")
@@ -113,7 +113,7 @@ class TaskDb:
             )
             task = self.cursor.fetchone()
             if task is None:
-                raise Exception("⣿ No task by that name found.\n")
+                raise Exception(">>> No task by that name found.\n")
 
             return Task.fromTuple(task)
 
@@ -206,7 +206,7 @@ class TaskDb:
         try:
             existing_task = self.get_task_by_name(task_name_)
             if not existing_task:
-                raise Exception("⣿ No such tasks found.")
+                raise Exception(">>> No such tasks found.")
 
             self.cursor.execute(
                 f"""

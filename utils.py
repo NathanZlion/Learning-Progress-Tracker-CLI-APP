@@ -58,19 +58,19 @@ def select_query_string(
                                          
 
 def print_cli_welcome_message():
-    print("╭──────────────────────────────────────────╮")
+    print("+------------------------------------------+")
     print("│         Welcome to the LPT CLI!          │")
     print("│    -  Let's Supercharge Your Day  -      │")
-    print("│             🚀🌟📅✅⏳💡🎯               │")
-    print("╰──────────────────────────────────────────╯")
+    print("│            ################              │")
+    print("+------------------------------------------+")
     print("\n")
 
 
 def print_cli_header():
-    print("╭──────────────────────────────────────────╮")
-    print("|         ⭐️ LPT CLI ⭐️                    |")
-    print("|   🚀 Let's Power Up Your Day! 🚀         |")
-    print("╰──────────────────────────────────────────╯")
+    print("+------------------------------------------+")
+    print("|            * LPT CLI star*               |")
+    print("|      - Let's Power Up Your Day! -        |")
+    print("+------------------------------------------+")
     print("\n")
 
 
@@ -82,12 +82,12 @@ def get_help_text(topic):
 
 def print_exit_message():
     """Prints a cool animation while exiting LPT CLI."""
-    animation_chars = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"]
+    animation_chars = ["::", ".:", "[:", ":]", ":."]
     num_chars = len(animation_chars)
-    animation_iteration = 2
+    animation_iteration = 4
     fps = 10
     print("(lpt) $ exit \b")
-    print("\r 👋 BYE BYE! Stay Productive.\n")
+    print("\r ## BYE BYE! Stay Productive. ## \n")
     # Adjust the number of iterations for a longer or shorter animation
     for _ in range(animation_iteration):
         for i in range(num_chars):
@@ -100,7 +100,7 @@ def print_exit_message():
 
 
 def print_separator():
-    print("────────────────────────────────────────────")
+    print("--------------------------------------------")
 
 
 def clear_screen():
