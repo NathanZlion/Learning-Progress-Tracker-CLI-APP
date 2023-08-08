@@ -33,6 +33,7 @@ pip-wheel-metadata/
 
 # text files
 *.txt
+idea.md
 
 # Unit test / coverage reports
 htmlcov/
